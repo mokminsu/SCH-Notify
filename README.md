@@ -34,6 +34,7 @@ cd SCH-Notify
 
 ## 실행하기
 
+### 바로 실행하기
 ```py3
 args = {
     'slack_token': 'token',
@@ -42,6 +43,36 @@ args = {
 
 main(args)
 ```
+
+### 서버리스 아키텍쳐에서 실행하기
+* 네이버 클라우드 플랫폼의 클라우드 펑션을 이용한 가이드입니다.
+* 자세한 설명은 네이버 클라우드 플랫폼에서 확인하실 수 있습니다. ([네이버 클라우드 펑션](https://www.ncloud.com/product/compute/cloudFunctions) | [네이버 클라우드 펑션 파이썬 가이드](https://guide.ncloud-docs.com/docs/cloudfunctions-example-python))
+1. 트리거를 생성해야합니다. 트리거의 종류는 Cron이며, 소스를 실행 할 주기를 설정합니다.
+2. 액션을 생성해야합니다. 타입은 일반 액션이며, 디폴트 파라미터는 다음과 같은 형식으로 작성하면 됩니다.
+    ```json
+    {
+        'slack_token': 'token',
+        'slack_channel_id': 'id'
+    }
+    ```
+3. Module Not Found 오류를 막기 위해 소스폴더에 라이브러리를 추가한뒤 압축합니다.
+    ```bash
+    pip install slack-sdk==3.23.0 -t ./
+    pip install beautifulsoup4==4.12.2 -t ./
+    ```
+
+    * 압축 후 디렉터리 형식은 다음과 같습니다.
+    ```
+    ├── 라이브러리 폴더 N개
+    ├── __main__.py
+    ```
+4. 런타임을 **Python:3.11**로 수정후 소스 압축 파일을 업로드 합니다.
+
+5. Main 함수의 이름은 main 이며, 액션 메모리와 액션 타임아웃은 유동적으로 설정합니다.
+    
+    * 이 프로젝트에서는 128MB와 1500ms로 설정하였습니다. (예상 요청수는 넉넉잡아 1개월당 50건)
+
+* 2023.10.26 기준 위의 설정 값을 네이버에서 제공하는 요금 계산기에 대입해 보았을때, 1개월 예상 요금은 0원입니다. (매월 400,00GB-초 무료 제공 | [네이버 요금 계산기](https://www.ncloud.com/charge/calc/ko?category=compute#cloudFunctions))
 
 ## 함수 설명
 * **fetch_current_notices** : 해당 페이지의 공지사항들의 제목, 작성자, 작성일을 스크랩
