@@ -1,4 +1,4 @@
-<p align="center"><img width="100%" src="Images/2.png" /></p>
+<p align="center"><img width="80%" src="Images/2.png" /></p>
 
 **순천향대학교 학사 공지사항 알리미 입니다.**
 
@@ -89,7 +89,6 @@ main(args)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffffff)
 
 ## TODO
-- [ ] 실시간 알림 전송
 - [ ] 다른 게시판 모두 크롤링
 
 
