@@ -88,6 +88,11 @@ main(args)
 ### 개발 언어
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffffff)
 
+## TODO
+- [ ] 실시간 알림 전송
+- [ ] 다른 게시판 모두 크롤링
+
+
 ## 유의사항
 이 프로젝트는 해당 웹사이트의 웹 크롤러 같은 로봇들의 접근을 제어하기 위한 규약을 준수하였습니다.
 
