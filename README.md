@@ -28,8 +28,8 @@ pip install slack-sdk==3.23.0
 
 ### 프로젝트 설치
 ```bash
-git clone https://github.com/mokminsu/SCH-Notify.git
-cd SCH-Notify
+git clone https://github.com/mokminsu/SCHU-Notify.git
+cd SCHU-Notify
 ```
 
 ## 실행하기
