@@ -3,11 +3,16 @@ from bs4 import BeautifulSoup
 import time
 from slack_sdk import WebClient
 
-BASE_URL = 'https://home.sch.ac.kr/sch/06/010100.jsp'
+BASE_URLS = [
+    'https://home.sch.ac.kr/sch/06/010100.jsp',
+    'https://home.sch.ac.kr/sch/06/010200.jsp',
+    'https://home.sch.ac.kr/sch/06/010300.jsp',
+    'https://home.sch.ac.kr/sch/06/020000.jsp',
+]
 
-def fetch_current_notices():
+def fetch_current_notices(fetch_url):
     try:
-        response = requests.get(BASE_URL)
+        response = requests.get(fetch_url)
         soup = BeautifulSoup(response.text, 'html.parser')
         notice_list = soup.find('tbody').find_all('tr')
         
@@ -16,7 +21,7 @@ def fetch_current_notices():
                 'title': notice.find('a').get_text(strip=True),
                 'author': notice.find('td', {'class': 'writer'}).contents[2].strip(),
                 'date': notice.find('td', {'class': 'date'}).contents[2].strip(),
-                'href': notice.find('a')['href'],
+                'href': fetch_url + notice.find('a')['href'],
             }
             for notice in notice_list if not notice.find('span', {'class': 'notice'})
         ]
@@ -65,7 +70,7 @@ def post_to_slack(notices, slack_token, slack_channel_id):
                             "text": "바로가기"
                         },
                         "style": "primary",
-                        "url": f"{BASE_URL}{notice['href']}",
+                        "url": notice['href'],
                     }
                 ]
             },
@@ -77,12 +82,14 @@ def post_to_slack(notices, slack_token, slack_channel_id):
             client.chat_postMessage(
                 channel=slack_channel_id,
                 blocks=block,
-                text="순천향대학교 공지사항 알리미입니다."
+                text=f"{notice['title']}"
             )
         except Exception as e:
             raise Exception({"done": False, "error_message": str(e)})
 
 def main(args):
-    notices = fetch_current_notices()
-    post_to_slack(notices, args['slack_token'], args['slack_channel_id'])
+    for index, fetch_url in enumerate(BASE_URLS):
+        slack_channel_key = f'slack_channel_id_{index + 1}'
+        notices = fetch_current_notices(fetch_url=fetch_url)
+        post_to_slack(notices, args['slack_token'], args[slack_channel_key])
     return {"done": True}
