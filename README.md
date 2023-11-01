@@ -36,7 +36,10 @@ cd SCHU-Notify
 ```py3
 args = {
     'slack_token': 'token',
-    'slack_channel_id': 'id'
+    'slack_channel_id_1': 'channel1',
+    'slack_channel_id_2': 'channel2',
+    'slack_channel_id_3': 'channel3',
+    'slack_channel_id_4': 'channel4'
 }
 
 main(args)
@@ -51,11 +54,11 @@ main(args)
 
     ```js
     {
-        'slack_token': 'tokne',
-        'slack_channel_id_1': 'channel1',
-        'slack_channel_id_2': 'channel2',
-        'slack_channel_id_3': 'channel3',
-        'slack_channel_id_4': 'channel4'
+        "slack_token": "tokne",
+        "slack_channel_id_1": "channel1",
+        "slack_channel_id_2": "channel2",
+        "slack_channel_id_3": "channel3",
+        "slack_channel_id_4": "channel4"
     }
     ```
 3. Module Not Found 오류를 막기 위해 소스폴더에 라이브러리를 추가한뒤 압축합니다.
